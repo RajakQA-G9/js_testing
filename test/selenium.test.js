@@ -1,23 +1,22 @@
 const webdriver = require('selenium-webdriver');
 const assert = require('assert');
-const MyMath = require('../Maths');
 
 describe('Selenium Tests', function() {
-    it('Test if 1 equals 1', async function() {
-        assert.equal(1, 1);
+    let driver;
+
+    before(function() {
+        driver = new webdriver.Builder().forBrowser('chrome').build();
     });
 
-    it('Test if 1 equals 2', async function() {
-        assert.equal(1, 2);
-    });
-});
-
-describe('Maths test', function() {
-    it('Test if 1 + 1 = 2', function() {
-        assert.equal(MyMath.add(1, 1), 2);
+    after(async function() {
+        await driver.quit();
     });
 
-    it('Test if 1 - 1 = 0', function() {
-        assert.equal(MyMath.sub(1, 1), 0);
+    it('Open google.com', async function() {
+        await driver.get('https://www.google.com/');
+
+        const pageTitle = await driver.getTitle();
+
+        assert.equal(pageTitle, 'Google');
     });
 });
