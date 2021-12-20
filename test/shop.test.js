@@ -84,11 +84,11 @@ describe('QA Shop Tests', function() {
 
         await Promise.all(options.map(async function(option) {
             const text = await option.getText();
-            if (text === '5') {
+            if (text === '2') {
                 await option.click();
 
                 const selectedValue = await quantity.getAttribute('value');
-                expect(selectedValue).to.contain('5');
+                expect(selectedValue).to.contain('2');
 
                 const orderButton = await packageName.findElement(By.className('btn btn-primary'));
                 await orderButton.click();
@@ -96,7 +96,7 @@ describe('QA Shop Tests', function() {
                 const url = await driver.getCurrentUrl();
                 expect(url).to.contain('http://shop.qa.rs/order');                
             }
-        }));        
+        }));
     });
 
     it('Opens shopping cart', async function() {
