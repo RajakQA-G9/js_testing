@@ -80,26 +80,23 @@ describe('QA Shop Tests', function() {
     it('Adds item to cart - Starter, 2 items', async function() {
         const packageName = await driver.findElement(By.xpath('//h3[contains(text(), "starter")]/ancestor::div[contains(@class, "panel")]'));
         const quantity = await packageName.findElement(By.name('quantity'));
-        const quantities = await quantity.findElements(By.css('option'));
+        const options = await quantity.findElements(By.css('option'));
 
-        quantities.map(function (option) {
-            option.getText().then(function(text) {
-                if (text === '2') {
-                    option.click();
-                }
-            });
-        });
+        await Promise.all(options.map(async function(option) {
+            const text = await option.getText();
+            if (text === '5') {
+                await option.click();
 
-        await driver.sleep(250);
+                const selectedValue = await quantity.getAttribute('value');
+                expect(selectedValue).to.contain('5');
 
-        const selectedValue = await quantity.getAttribute('value');
-        expect(selectedValue).to.contain('2');
+                const orderButton = await packageName.findElement(By.className('btn btn-primary'));
+                await orderButton.click();
 
-        const orderButton = await packageName.findElement(By.className('btn btn-primary'));
-        await orderButton.click();
-
-        const url = await driver.getCurrentUrl();
-        expect(url).to.contain('http://shop.qa.rs/order');
+                const url = await driver.getCurrentUrl();
+                expect(url).to.contain('http://shop.qa.rs/order');                
+            }
+        }));        
     });
 
     it('Opens shopping cart', async function() {
