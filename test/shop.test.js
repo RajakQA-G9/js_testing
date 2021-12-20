@@ -108,4 +108,28 @@ describe('QA Shop Tests', function() {
 
         expect(await driver.findElement(By.css('h1')).getText()).to.contain('Order');
     });
+
+    it('Verifies items are in cart - Starter, 2 items', async function() {
+        const orderTable = await driver.findElement(By.css('table'));
+        const orderRow = await orderTable.findElement(
+            By.xpath('//table//td[contains(., "STARTER")]/parent::tr')
+        );
+        const orderQty = await orderRow.findElement(By.xpath('//td[2]'))
+
+        expect(await orderQty.getText()).to.eq('2');
+    });
+
+    it('Performs checkout', async function() {
+        const checkoutBtn = await driver.findElement(By.name('checkout'));
+        await checkoutBtn.click();
+
+        expect(await driver.findElement(By.css('h2')).getText()).to.contain('(Order #');
+    });
+
+    it('Performs logout', async function() {
+        const logout = await driver.findElement(By.partialLinkText('Logout'));
+        await logout.click();
+
+        expect(await driver.findElement(By.linkText('Login')).isDisplayed()).to.be.true;
+    });
 });
