@@ -17,3 +17,9 @@ describe('Maths test', function() {
         assert.equal(MyMath.add(1, 1), 2);
     });
 });
+
+describe('Maths test', function() {
+    it('Test if 1 - 1 = 0', function() {
+        assert.equal(MyMath.sub(1, 1), 0);
+    });
+});
