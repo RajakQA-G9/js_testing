@@ -10,11 +10,12 @@ describe('Maths test', function() {
         assert.equal(MyMath.sub(1, 1), 0);
     });
 
-    it('Test if 3 * 4 = 12', function() {
-        assert.equal(MyMath.mul(3, 4),12);
+    it('Test if 3 * 2 = 6', function() {
+        assert.equal(MyMath.mul(3, 2),6);
     });
 
     it('Test if 6 / 2 = 3', function() {
         assert.equal(MyMath.div(6, 2), 3);
-    }); 
+    });
+    
 });
