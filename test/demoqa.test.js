@@ -18,4 +18,20 @@ describe('DemoQA test', function() {
     after(function() {
         return driver.quit();
     });
+
+    it('Opens demoqa.com homepage', async function() {
+        await driver.get('https://demoqa.com/');
+
+        expect(await driver.getCurrentUrl()).to.eq('https://demoqa.com/');
+    });
+
+    it('Opens Elements page', async function() {
+        const elementsPage = await driver.findElement(
+            By.xpath('//h5[contains(., "Elements")]')
+        );
+        await elementsPage.click();
+
+        expect(await driver.findElement(By.className('main-header')).getText()).to.eq('Elements');
+        expect(await driver.getCurrentUrl()).to.eq('https://demoqa.com/elements');
+    });
 });
