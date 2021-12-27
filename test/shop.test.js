@@ -116,11 +116,52 @@ describe('QA Shop Tests', function() {
         expect(await orderQty.getText()).to.eq('2');
     });
 
+    it('Verifies total item price is correct', async function() {
+        const orderTable = await driver.findElement(By.css('table'));
+        const orderRow = await orderTable.findElement(
+            By.xpath('//table//td[contains(., "STARTER")]/parent::tr')
+        );
+        const orderQty = await orderRow.findElement(By.xpath('//td[2]'))
+        const orderPrice = await orderRow.findElement(By.xpath('//td[3]'));
+        const orderTotal = await orderRow.findElement(By.xpath('//td[4]'));
+
+        const price = Number((await orderPrice.getText()).substring(1));
+        const total = Number((await orderTotal.getText()).substring(1));
+        const qntty = Number(await orderQty.getText());
+
+        const calculatedTotal = qntty * price;
+
+        expect(calculatedTotal).to.be.eq(total);
+    });
+
     it('Performs checkout', async function() {
         const checkoutBtn = await driver.findElement(By.name('checkout'));
         await checkoutBtn.click();
 
         expect(await driver.findElement(By.css('h2')).getText()).to.contain('(Order #');
+    });
+
+    it('Verifies checkout success', async function() {
+        const orderSuccess = await driver.findElement(By.css('h2')).getText();
+        
+        const orderNum = orderSuccess.replace(/\D/g, '');
+        /*
+            // regex (gore) ili bez regex (dole)
+
+            const orderSuccess2 = orderSuccess.substring(orderSuccess.indexOf('#') + 1);
+            const orderNum2 = orderSuccess2.substring(0, orderSuccess2.indexOf(')'));
+        */
+
+        const orderHistory = await driver.findElement(By.linkText('Order history'));
+        await orderHistory.click();
+ 
+        expect(await driver.findElement(By.css('h1')).getText()).to.contain('Order History');
+ 
+        const historyTable = await driver.findElement(By.css('table'));
+        const historyRow = await historyTable.findElement(By.xpath(`//td[contains(., "#${orderNum}")]/parent::tr`));
+        const historyStatus = await historyRow.findElement(By.className('status'));
+
+        expect(await historyStatus.getText()).to.be.eq('Ordered');
     });
 
     it('Performs logout', async function() {
