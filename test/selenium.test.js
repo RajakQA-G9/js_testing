@@ -25,15 +25,6 @@ describe('Selenium Tests', function() {
 
         expect(pageTitle).to.contain('Google');
     });
-<<<<<<< HEAD
-});
-
-describe('Maths test', function() {
-    it('Test if 1 - 1 = 0', function() {
-        assert.equal(MyMath.sub(1, 1), 0);
-    });
-});
-=======
 
     it('Perform a search on Google', async function() {
         await driver.get('https://www.google.com/');
@@ -58,4 +49,3 @@ describe('Maths test', function() {
         await driver.sleep(5000);
     });
 });
->>>>>>> a0b8ca57daf1fff40aac129eeb4f8ee9412d0c10
