@@ -8,7 +8,9 @@ describe('Selenium Tests', function() {
     let driver;
 
     before(async function() {
-        let service = new chrome.ServiceBuilder('D:\\Kurs\\chromedriver\\chromedriver.exe').build()
+        let service = new chrome.ServiceBuilder('E:\\QA kurs\\js_testing\\chromedriver\\chromedriver.exe').build()
+        chrome.setDefaultService(service);
+
         chrome.setDefaultService(service);
 
         driver = await new Builder().forBrowser('chrome').build();
